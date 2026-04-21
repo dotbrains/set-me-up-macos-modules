@@ -44,7 +44,8 @@ macos/
 │   ├── hyperkey/
 │   ├── raycast/
 │   ├── rectangle-pro/
-│   └── topnotch/
+│   ├── topnotch/
+│   └── wisprflow/
 ├── security/
 │   ├── 1password/
 │   └── nordvpn/
