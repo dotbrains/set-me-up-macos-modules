@@ -26,6 +26,7 @@ macos/
 │   └── figma/
 ├── development-tools/
 │   ├── code/
+│   ├── cursor/
 │   ├── insomnia/
 │   ├── jetbrains-toolbox/
 │   ├── macports/
