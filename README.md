@@ -63,6 +63,44 @@ macos/
     └── syntax-highlight/
 ```
 
+## Module kinds
+
+Each module directory contains one of:
+
+- **`brewfile`** — most common. A standard Homebrew Bundle file consumed by `brew bundle install`.
+- **`<name>.sh`** — used when an install can't be expressed as a brewfile (App Store launches, vendor installers, post-install configuration). See `development-tools/xcode/`, `development-tools/macports/`, and `installers/`.
+
+The `smu` installer resolves a module by name and runs whichever artifact it finds. See the [installer README](https://github.com/dotbrains/set-me-up-installer#discovering-modules) for the full module-resolution rules and the `-p` / `-i` / `-l` flags.
+
+## OS guarding
+
+These modules are macOS-only. Defense-in-depth is layered so that running them on Linuxbrew or any other host fails closed:
+
+1. **Top-level `install.sh`** — checks `is_macos` once and then iterates every `brewfile` under this tree via `brew_bundle_install`. Use this as the single entry point when bulk-installing the whole module set.
+2. **Per-brewfile guard** — every `brewfile` starts with `abort "macOS only" unless OS.mac?`. Even a direct `brew bundle --file=…` invocation refuses to run on the wrong host.
+3. **Per-script guard** — the three `*.sh` modules each call `is_macos` at the top of `main()` and bail with an error message otherwise.
+
+## Auditing and uninstalling
+
+The `smu` installer ships read-only auditing (`smu --status`) and reversal (`smu --uninstall`) for every module:
+
+```bash
+smu --status                                # what's currently installed
+smu -u -m media/spotify productivity/raycast    # uninstall (prompts [y/N])
+smu -iu                                          # interactive uninstall via fzf
+```
+
+For brewfile modules detection and uninstall are automatic — `brew bundle check` answers "is it installed?" and `brew bundle cleanup --file <brewfile> --force` reverses the install. No per-module work is required.
+
+For `*.sh` modules `smu` only acts when the module ships two opt-in sibling files:
+
+- **`<name>.installed`** — sourced by `smu --status`. Exit 0 means installed; non-zero means missing. Without this file, the module reports `unknown` (smu never guesses).
+- **`<name>.uninstall.sh`** — sourced by `smu --uninstall`. Without this file, the module is reported as "cannot auto-uninstall — manual cleanup required" and skipped.
+
+If a `*.sh` module shares its directory with a `brewfile`, `smu --uninstall` runs both inverses in order: the per-module `<name>.uninstall.sh` first (to clean up what the install script did beyond the brewfile), then `brew bundle cleanup --force` (to drop the brewfile-declared dependencies).
+
+See the [installer README](https://github.com/dotbrains/set-me-up-installer#auditing-whats-installed) for the full status/uninstall reference, including detection rules, sample output, and authoring examples.
+
 ## Usage
 
 These modules are designed to be used as submodules within the [`set-me-up` blueprint](https://github.com/dotbrains/set-me-up-blueprint) repository.
