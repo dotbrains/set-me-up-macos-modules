@@ -1,2 +1,4 @@
+abort "macOS only" unless OS.mac?
+
 brew "mas"
 mas "Notability", id: 360593530
