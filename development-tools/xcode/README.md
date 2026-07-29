@@ -1,6 +1,6 @@
 # 'xcode' Module
 
-[![License: PolyForm Shield 1.0.0](https://img.shields.io/badge/License-PolyForm%20Shield%201.0.0-blue.svg)](https://polyformproject.org/licenses/shield/1.0.0/)
+[![License: PolyForm Shield 1.0.0](https://img.shields.io/badge/License-PolyForm%20Shield%201.0.0-blue.svg)](https://polyformproject.org/licenses/shield/1.0.0)
 
 This repository is designed to be used as a submodule to the [`set-me-up` blueprint](https://github.com/dotbrains/set-me-up-blueprint) repository.
 
@@ -12,4 +12,4 @@ Please see the [universal modules documentation](https://github.com/dotbrains/se
 
 ## License
 
-This project is licensed under the [PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/) -- see [LICENSE](LICENSE) for details.
+This project is licensed under the [PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0) -- see [LICENSE](LICENSE) for details.
